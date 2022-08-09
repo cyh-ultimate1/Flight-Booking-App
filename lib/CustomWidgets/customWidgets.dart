@@ -29,12 +29,13 @@ class customWidgets {
   static Widget customLabelButton(
       {required Function() onPressed,
       required String customLabel,
-      ButtonStyle? buttonStyle}) {
+      ButtonStyle? buttonStyle,
+      Color? textColor}) {
     return ElevatedButton(
       style: buttonStyle,
       child: Text(
         customLabel.toUpperCase(),
-        style: const TextStyle(fontWeight: FontWeight.bold),
+        style: TextStyle(fontWeight: FontWeight.bold, color: textColor),
       ),
       onPressed: onPressed,
     );

@@ -133,8 +133,6 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
                               },
                               onSaved: (val) => print(val),
                             ),
-                            customWidgets.emptyHorizontalSpace(
-                                customHeight: 500),
                             customWidgets.customLabelButton(
                               customLabel: "search",
                               onPressed: _submit(),

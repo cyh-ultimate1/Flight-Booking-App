@@ -43,6 +43,7 @@ dependencies:
   equatable: ^2.0.3
   date_time_picker: ^2.1.0
   json_serializable: ^6.3.1
+  slider_button: ^2.0.0
 
 dev_dependencies:
   flutter_test:
@@ -98,3 +99,5 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+  assets:
+      - assets/images/
