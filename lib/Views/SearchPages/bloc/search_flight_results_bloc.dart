@@ -11,16 +11,16 @@ class SearchFlightResultsBloc
     extends Bloc<SearchFlightResultsEvent, SearchFlightResultsState> {
   SearchFlightResultsBloc() : super(SearchFlightResultsInitial()) {
     on<LoadSearchPage>((event, emit) async {
-      var futureResults =
-          await getSearchFlightResults(event.sourceID, event.destinationID);
+      var futureResults = await getSearchFlightResults(
+          event.sourceID, event.destinationID, event.fromDateTime);
       emit(SearchFlightResultsLoaded(results: futureResults));
     });
   }
 
   Future<List<SearchFlightResultsDTO>> getSearchFlightResults(
-      String sourceID, String destionationID) async {
+      String sourceID, String destionationID, String fromDateTime) async {
     var results = await OnlineService.Instance.getSearchFlightResults(
-        sourceID, destionationID);
+        sourceID, destionationID, fromDateTime);
 
     return results;
   }

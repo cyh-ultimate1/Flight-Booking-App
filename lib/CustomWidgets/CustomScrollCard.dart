@@ -13,10 +13,10 @@ class CustomScrollCard extends StatelessWidget {
   final void Function()? onTap;
   final String? textDescription;
   final String? imagePath;
-  final kPrimaryColor = Color.fromARGB(255, 12, 88, 230);
 
   @override
   Widget build(BuildContext context) {
+    var kPrimaryColor = ThemeData().primaryColor;
     var size = MediaQuery.of(context).size;
     return Container(
       margin: EdgeInsets.only(
@@ -43,7 +43,7 @@ class CustomScrollCard extends StatelessWidget {
                   BoxShadow(
                     offset: Offset(0, 10),
                     blurRadius: 50,
-                    color: kPrimaryColor.withOpacity(0.23),
+                    color: kPrimaryColor.withOpacity(0.3),
                   ),
                 ],
               ),

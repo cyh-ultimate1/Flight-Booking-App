@@ -1,19 +1,22 @@
 import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 
+import '../CustomMethods.dart';
 import '../Models/KeyValueModel.dart';
 import '../Services/OnlineServices.dart';
 
 class CustomSearchableDropdownList extends StatefulWidget {
-  CustomSearchableDropdownList(
-      {Key? key,
-      this.customLabelText,
-      required this.dropDownItems,
-      required this.onChanged})
-      : super(key: key);
+  CustomSearchableDropdownList({
+    Key? key,
+    this.customLabelText,
+    required this.dropDownItems,
+    required this.onChanged,
+    this.isRequired = false,
+  }) : super(key: key);
   final String? customLabelText;
   final List<KeyValueModel> dropDownItems;
   final ValueChanged onChanged;
+  final bool isRequired;
 
   @override
   State<CustomSearchableDropdownList> createState() =>
@@ -46,6 +49,13 @@ class _CustomSearchableDropdownListState
       // },
       onChanged: (newValue) {
         widget.onChanged((newValue as KeyValueModel).key);
+      },
+      validator: (val) {
+        if (widget.isRequired) {
+          return CustomMethods.isDropdownEmptyOrNull(
+              val, widget.customLabelText);
+        }
+        return null;
       },
     );
   }

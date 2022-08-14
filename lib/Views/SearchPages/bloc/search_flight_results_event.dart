@@ -8,9 +8,13 @@ abstract class SearchFlightResultsEvent extends Equatable {
 }
 
 class LoadSearchPage extends SearchFlightResultsEvent {
-  const LoadSearchPage({required this.sourceID, required this.destinationID});
+  const LoadSearchPage(
+      {required this.sourceID,
+      required this.destinationID,
+      required this.fromDateTime});
   final String sourceID;
   final String destinationID;
+  final String fromDateTime;
 
   @override
   List<Object> get props => [];

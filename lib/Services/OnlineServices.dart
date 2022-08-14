@@ -77,8 +77,33 @@ class OnlineService {
     return maps;
   }
 
+  Future<Map<String, String>> getLocationCitiesIdNamePair() async {
+    Map<String, String> maps = {};
+    try {
+      String? jwtToken = await secureStorage.read(key: GlobalConstants.jwt);
+      var resp = await Client.get(
+        Uri.parse(
+            GlobalConstants.API_URL + "/Locations/GetLocationCitiesIdNamePair"),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": 'Bearer ' + jwtToken.toString().replaceAll('"', '')
+        },
+      );
+      if (resp.statusCode == 200) {
+        Map<String, dynamic> respBody = jsonDecode(resp.body);
+        maps = respBody.map((key, value) => MapEntry(key, value));
+        //maps = jsonDecode(resp.body).cast<Map<String, String>>();
+      }
+    } catch (ex) {
+      //
+      log(ex.toString());
+    }
+    return maps;
+  }
+
   Future<List<SearchFlightResultsDTO>> getSearchFlightResults(
-      String sourceID, String destinationID) async {
+      String sourceID, String destinationID, String fromDateTime) async {
     String? jwtToken = await secureStorage.read(key: GlobalConstants.jwt);
     var resp = await Client.post(
         Uri.parse(GlobalConstants.API_URL + "/Flight/GetFlightsByFromToPair"),
@@ -90,6 +115,7 @@ class OnlineService {
         body: jsonEncode({
           "SourceID": sourceID,
           "DestinationID": destinationID,
+          "FromDateTime": fromDateTime,
         }));
     if (resp.statusCode == 200) {
       var parsed = jsonDecode(resp.body) as List;

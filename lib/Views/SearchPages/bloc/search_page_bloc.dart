@@ -12,7 +12,7 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
   SearchPageBloc() : super(SearchPageInitial()) {
     on<LoadSearchPage>((event, emit) async {
       //await Future<void>.delayed(const Duration(seconds: 3));
-      var futureLocationsList = await getLocationsIdName();
+      var futureLocationsList = await getLocationCitiesIdNamePair();
       emit(SearchPageLoaded(locations: futureLocationsList));
     });
     on<AddSomething>(((event, emit) {
@@ -24,8 +24,8 @@ class SearchPageBloc extends Bloc<SearchPageEvent, SearchPageState> {
     }));
   }
 
-  Future<List<KeyValueModel>> getLocationsIdName() async {
-    var results = await OnlineService.Instance.getLocationsIdNamePair();
+  Future<List<KeyValueModel>> getLocationCitiesIdNamePair() async {
+    var results = await OnlineService.Instance.getLocationCitiesIdNamePair();
     return results.entries
         .map((e) => KeyValueModel(key: e.key, value: e.value))
         .toList();

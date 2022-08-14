@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:project_a/Models/API/SearchFlightResultsDTO.dart';
 import 'package:project_a/Views/FlightDetailsFormPage.dart';
 import 'package:project_a/Views/SearchPages/bloc/search_flight_results_bloc.dart';
 
 class SearchFlightResultsPage extends StatefulWidget {
   const SearchFlightResultsPage(
-      {Key? key, this.selectedValueSearchFrom, this.selectedValueSearchTo})
+      {Key? key,
+      this.selectedValueSearchFrom,
+      this.selectedValueSearchTo,
+      this.selectedValueFromDateTime})
       : super(key: key);
   final String? selectedValueSearchFrom;
   final String? selectedValueSearchTo;
+  final String? selectedValueFromDateTime;
 
   @override
   State<SearchFlightResultsPage> createState() =>
@@ -29,7 +34,8 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
               create: (context) => SearchFlightResultsBloc()
                 ..add(LoadSearchPage(
                     sourceID: widget.selectedValueSearchFrom ?? "",
-                    destinationID: widget.selectedValueSearchTo ?? ""))),
+                    destinationID: widget.selectedValueSearchTo ?? "",
+                    fromDateTime: widget.selectedValueFromDateTime ?? ""))),
         ],
         child: BlocBuilder<SearchFlightResultsBloc, SearchFlightResultsState>(
           builder: (context, state) {
@@ -40,10 +46,11 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
             } else if (state is SearchFlightResultsLoaded) {
               var results = state.results;
               return ListView(
+                physics: const BouncingScrollPhysics(),
                 children: [
                   ListView.builder(
+                    physics: const BouncingScrollPhysics(),
                     shrinkWrap: true,
-                    physics: const ScrollPhysics(),
                     itemCount: results.length,
                     itemBuilder: (BuildContext ctx, int idx) {
                       var result = results[idx];
@@ -58,12 +65,12 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
                         child: Card(
                           margin: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 5.0),
-                          elevation: 15.0,
+                          elevation: 20.0,
                           // shape: RoundedRectangleBorder(
                           //   borderRadius: BorderRadius.circular(15.0),
                           // ),
                           child: DefaultTextStyle(
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.black),
@@ -72,6 +79,10 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
                                 flex: 1,
                                 child: Container(
                                   color: Colors.amber,
+                                  child: const Icon(
+                                    Icons.flight_takeoff_sharp,
+                                    size: 50.0,
+                                  ),
                                   height: 100,
                                 ),
                               ),
@@ -83,8 +94,12 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
                                       crossAxisAlignment:
                                           CrossAxisAlignment.start,
                                       children: [
-                                        Text(result.fromDateTime.toString()),
-                                        Text(result.toDateTime.toString()),
+                                        const Text("Departure:"),
+                                        Text(
+                                            "${DateFormat.Hms().format(result.fromDateTime!)}"),
+                                        const Text("Arrival:"),
+                                        Text(
+                                            "${DateFormat.Hms().format(result.toDateTime!)}"),
                                       ],
                                     ),
                                   ))

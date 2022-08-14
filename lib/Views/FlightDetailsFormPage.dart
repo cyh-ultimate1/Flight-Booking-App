@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:project_a/Views/EmptyPage.dart';
 
+import '../CustomMethods.dart';
 import '../CustomWidgets/CustomFormTextField.dart';
 import '../../CustomWidgets/customWidgets.dart';
 import 'FlightSeatSelectionPage.dart';
@@ -34,13 +35,6 @@ class _FlightDetailsFormPageState extends State<FlightDetailsFormPage> {
           );
         }
       };
-
-  String? isEmptyOrNull(String? val) {
-    if (val == null || val.isEmpty) {
-      return 'Please enter some text';
-    }
-    return null;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,12 +73,12 @@ class _FlightDetailsFormPageState extends State<FlightDetailsFormPage> {
                       CustomTextFormField(
                         textLabel: "Your Name:",
                         validator: (val) {
-                          return isEmptyOrNull(val);
+                          return CustomMethods.isEmptyOrNull(val);
                         },
                       ),
                       CustomTextFormField(
                         textLabel: "Your Passport Number:",
-                        validator: (val) => isEmptyOrNull(val),
+                        validator: (val) => CustomMethods.isEmptyOrNull(val),
                       ),
                       customWidgets.emptyHorizontalSpace(customHeight: 200.0),
                       customWidgets.customLabelButton(

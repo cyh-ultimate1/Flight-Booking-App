@@ -22,7 +22,10 @@ class CustomRoundedIcons extends StatelessWidget {
         onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
-              shape: BoxShape.circle, color: Theme.of(context).primaryColor),
+              shape: BoxShape.circle,
+              color:
+                  (Theme.of(context).primaryColor as MaterialColor).shade300),
+          //color: Colors.amber.shade100),
           child: iconWidget,
         ),
       ),

@@ -4,9 +4,11 @@ import 'dart:developer';
 import 'package:date_time_picker/date_time_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:project_a/CustomMethods.dart';
 import 'package:project_a/Views/SearchPages/bloc/search_page_bloc.dart';
 import '../../CustomWidgets/CustomSearchableDropdownList.dart';
 import '../../CustomWidgets/customWidgets.dart';
+import '../../constants.dart';
 import 'SearchFlightResultsPage.dart';
 
 class SearchFlightPage extends StatefulWidget {
@@ -20,13 +22,7 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
   final _formKey = GlobalKey<FormState>();
   String? selectedValueSearchFrom = "";
   String? selectedValueSearchTo = "";
-  final customBackgroundColor = const Color.fromRGBO(0, 48, 160, 1);
-  var customLinearGradient = LinearGradient(
-    colors: <Color>[
-      Color.fromRGBO(0, 48, 160, 1),
-      Colors.lightBlue,
-    ],
-  );
+  String? selectedValueFromDateTime = null;
 
   @override
   void initState() {
@@ -36,24 +32,29 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
   Function() _submit() {
     return () {
       log("dropdownvalue: " + selectedValueSearchFrom.toString());
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-            builder: (context) => SearchFlightResultsPage(
-                  selectedValueSearchFrom: selectedValueSearchFrom,
-                  selectedValueSearchTo: selectedValueSearchTo,
-                )),
-      );
+      if (_formKey.currentState!.validate()) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+              builder: (context) => SearchFlightResultsPage(
+                    selectedValueSearchFrom: selectedValueSearchFrom,
+                    selectedValueSearchTo: selectedValueSearchTo,
+                    selectedValueFromDateTime: selectedValueFromDateTime,
+                  )),
+        );
+      }
     };
   }
 
   @override
   Widget build(BuildContext context) {
+    var customBackgroundColor = Theme.of(context).primaryColor;
+
     return Scaffold(
       appBar: AppBar(
         flexibleSpace: Container(
           decoration: BoxDecoration(
-            gradient: customLinearGradient,
+            gradient: GlobalConstants.customLinearGradient,
           ),
         ),
         elevation: 0,
@@ -68,7 +69,8 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
             width: MediaQuery.of(context).size.width,
             //decoration: BoxDecoration(color: Theme.of(context).primaryColor),
             decoration: BoxDecoration(
-                color: customBackgroundColor, gradient: customLinearGradient),
+                color: customBackgroundColor,
+                gradient: GlobalConstants.customLinearGradient),
             //padding: const EdgeInsets.symmetric(horizontal: 15.0),
             child: Column(
               mainAxisSize: MainAxisSize.max,
@@ -104,6 +106,7 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
                           key: _formKey,
                           child: ListView(children: [
                             CustomSearchableDropdownList(
+                              isRequired: true,
                               customLabelText: "Search From",
                               dropDownItems: locations,
                               onChanged: (value) {
@@ -111,6 +114,7 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
                               },
                             ),
                             CustomSearchableDropdownList(
+                              isRequired: true,
                               customLabelText: "Search To",
                               dropDownItems: locations,
                               onChanged: (value) {
@@ -119,17 +123,17 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
                             ),
                             customWidgets.emptyHorizontalSpace(),
                             DateTimePicker(
-                              type: DateTimePickerType.dateTime,
+                              type: DateTimePickerType.date,
                               // use24HourFormat: false,
                               // locale: Locale('en', 'KE'),
                               initialValue: '',
                               firstDate: DateTime(2000),
                               lastDate: DateTime(2100),
-                              dateLabelText: 'Departure Date & Time',
-                              onChanged: (val) => print(val),
+                              dateLabelText: 'Departure Date',
+                              onChanged: (val) =>
+                                  selectedValueFromDateTime = val,
                               validator: (val) {
-                                print(val);
-                                return null;
+                                return CustomMethods.isDateTimeEmptyOrNull(val);
                               },
                               onSaved: (val) => print(val),
                             ),

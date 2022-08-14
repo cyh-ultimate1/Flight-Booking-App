@@ -19,6 +19,7 @@ class FlightSeatSelectionPage extends StatefulWidget {
 class _FlightSeatSelectionPageState extends State<FlightSeatSelectionPage> {
   var pageBackgroundColor = Color.fromARGB(255, 0, 26, 85);
   var seatSelectorColor = Colors.orange[800];
+  int? finalSelectedSeatIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -70,6 +71,10 @@ class _FlightSeatSelectionPageState extends State<FlightSeatSelectionPage> {
                                 child: BlocBuilder<FlightSeatBloc,
                                     FlightSeatState>(
                                   builder: (context, state) {
+                                    if (state is FlightSeatSelected) {
+                                      finalSelectedSeatIndex =
+                                          state.selectedIndex;
+                                    }
                                     var isSelected =
                                         state is FlightSeatSelected &&
                                             idx == state.selectedIndex;
@@ -163,11 +168,13 @@ class _FlightSeatSelectionPageState extends State<FlightSeatSelectionPage> {
                               child: Container(
                                 child: customWidgets.customLabelButton(
                                   onPressed: () {
+                                    var selected = finalSelectedSeatIndex!;
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              const PaymentPage()),
+                                          builder: (context) => PaymentPage(
+                                                selectedSeat: selected,
+                                              )),
                                     );
                                   },
                                   customLabel: "confirm",

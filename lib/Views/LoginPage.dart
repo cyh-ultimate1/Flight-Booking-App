@@ -85,6 +85,9 @@ class _LoginPageState extends State<LoginPage> {
         //         colorFilter: ColorFilter.mode(
         //             Colors.black.withOpacity(0.2), BlendMode.dstATop),
         //         image: const AssetImage("assets/images/some_building.png"))),
+        decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
+            gradient: GlobalConstants.customLinearGradient),
         child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Form(
@@ -96,15 +99,21 @@ class _LoginPageState extends State<LoginPage> {
                   children: <Widget>[
                     TextFormField(
                       controller: _usernameController,
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 20.0),
                       decoration: const InputDecoration(
-                        labelText: 'Username',
-                      ),
-                      validator: (e) => validateUsername(e),
+                          labelText: 'Username',
+                          labelStyle: TextStyle(color: Colors.white)),
+                      // validator: (e) => validateUsername(e),
                     ),
                     TextFormField(
                       controller: _passwordController,
+                      style:
+                          const TextStyle(color: Colors.white, fontSize: 20.0),
                       obscureText: true,
-                      decoration: const InputDecoration(labelText: 'Password'),
+                      decoration: const InputDecoration(
+                          labelText: 'Password',
+                          labelStyle: TextStyle(color: Colors.white)),
                       validator: (e) => validatePassword(e),
                     ),
                     customWidgets.emptyHorizontalSpace(),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:project_a/Views/EmptyPage.dart';
-import '../CustomWidgets/TitleWithMoreButton.dart';
+import '../CustomWidgets/CustomHorizontalScrollTitleWithMoreButton.dart';
 import '../constants.dart';
 
 class HomePage2 extends StatefulWidget {
@@ -27,10 +27,10 @@ class _thisPageState extends State<HomePage2> {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              TitleWithMoreButton(
+              CustomHorizontalScrollTitleWithMoreButton(
                   title: "Notices and promotions", press: () {}),
               const RecomendsPlants(),
-              TitleWithMoreButton(
+              CustomHorizontalScrollTitleWithMoreButton(
                   title: "Notices and promotions", press: () {}),
               const RecomendsPlants(),
             ],
