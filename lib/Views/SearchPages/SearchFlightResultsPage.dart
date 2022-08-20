@@ -25,6 +25,22 @@ class SearchFlightResultsPage extends StatefulWidget {
 }
 
 class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
+  void _showToast(BuildContext context) {
+    final scaffold = ScaffoldMessenger.of(context);
+    scaffold.showSnackBar(
+      SnackBar(
+        content: const Text('Loading.....'),
+        action: SnackBarAction(
+            textColor: Colors.yellow,
+            label: 'HIDE',
+            onPressed: scaffold.hideCurrentSnackBar),
+        //duration: const Duration(seconds: 3),
+        behavior: SnackBarBehavior.floating,
+        elevation: 10.0,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,6 +73,7 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
                       log('At the top');
                     } else {
                       log('At the bottom');
+                      _showToast(context);
                       context.read<SearchFlightResultsBloc>().add(LoadMore(
                           sourceID: widget.selectedValueSearchFrom ?? "",
                           destinationID: widget.selectedValueSearchTo ?? "",
