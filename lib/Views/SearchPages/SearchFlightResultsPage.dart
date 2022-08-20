@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -30,7 +33,7 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
       ),
       body: MultiBlocProvider(
         providers: [
-          BlocProvider(
+          BlocProvider<SearchFlightResultsBloc>(
               create: (context) => SearchFlightResultsBloc()
                 ..add(LoadSearchPage(
                     sourceID: widget.selectedValueSearchFrom ?? "",
@@ -45,77 +48,112 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
               );
             } else if (state is SearchFlightResultsLoaded) {
               var results = state.results;
-              return ListView(
-                physics: const BouncingScrollPhysics(),
-                children: [
-                  ListView.builder(
-                    physics: const BouncingScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: results.length,
-                    itemBuilder: (BuildContext ctx, int idx) {
-                      var result = results[idx];
-                      return GestureDetector(
-                        onTap: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => FlightDetailsFormPage(
-                                    flightObjectId: result.ObjectID!,
-                                  )),
-                        ),
-                        child: Card(
-                          margin: const EdgeInsets.symmetric(
-                              horizontal: 10.0, vertical: 5.0),
-                          elevation: 20.0,
-                          // shape: RoundedRectangleBorder(
-                          //   borderRadius: BorderRadius.circular(15.0),
-                          // ),
-                          child: DefaultTextStyle(
-                            style: const TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black),
-                            child: Row(children: [
-                              Expanded(
-                                flex: 1,
-                                child: Container(
-                                  color: Colors.amber,
-                                  child: const Icon(
-                                    Icons.flight_takeoff_sharp,
-                                    size: 50.0,
-                                  ),
-                                  height: 100,
-                                ),
-                              ),
-                              Expanded(
-                                  flex: 3,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        const Text("Departure:"),
-                                        Text(
-                                            "${DateFormat.Hms().format(result.fromDateTime!)}"),
-                                        const Text("Arrival:"),
-                                        Text(
-                                            "${DateFormat.Hms().format(result.toDateTime!)}"),
-                                      ],
-                                    ),
-                                  ))
-                            ]),
+              return NotificationListener<ScrollEndNotification>(
+                onNotification: (scrollEnd) {
+                  final metrics = scrollEnd.metrics;
+                  if (metrics.atEdge) {
+                    bool isTop = metrics.pixels == 0;
+                    if (isTop) {
+                      log('At the top');
+                    } else {
+                      log('At the bottom');
+                      context.read<SearchFlightResultsBloc>().add(LoadMore(
+                          sourceID: widget.selectedValueSearchFrom ?? "",
+                          destinationID: widget.selectedValueSearchTo ?? "",
+                          fromDateTime: widget.selectedValueFromDateTime ?? "",
+                          excludingIds:
+                              results.map((e) => e.ObjectID!).toList()));
+                    }
+                  }
+                  return true;
+                },
+                child: ListView(
+                  physics: const BouncingScrollPhysics(),
+                  children: [
+                    ListView.builder(
+                      physics: const BouncingScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: results.length,
+                      itemBuilder: (BuildContext ctx, int idx) {
+                        var result = results[idx];
+                        return GestureDetector(
+                          onTap: () => Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => FlightDetailsFormPage(
+                                      flightObjectId: result.ObjectID!,
+                                    )),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                          child: Card(
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 10.0, vertical: 5.0),
+                            elevation: 20.0,
+                            // shape: RoundedRectangleBorder(
+                            //   borderRadius: BorderRadius.circular(15.0),
+                            // ),
+                            child: DefaultTextStyle(
+                              style: const TextStyle(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black),
+                              child: Row(children: [
+                                Expanded(
+                                  flex: 1,
+                                  child: Container(
+                                    color: Colors.amber,
+                                    child: const Icon(
+                                      Icons.flight_takeoff_sharp,
+                                      size: 50.0,
+                                    ),
+                                    height: 100,
+                                  ),
+                                ),
+                                Expanded(
+                                    flex: 3,
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          const Text("Departure:"),
+                                          Text(
+                                              "${DateFormat.Hms().format(result.fromDateTime!)}"),
+                                          const Text("Arrival:"),
+                                          Text(
+                                              "${DateFormat.Hms().format(result.toDateTime!)}"),
+                                        ],
+                                      ),
+                                    ))
+                              ]),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
               );
             } else {
               return const Text("something is wrong");
             }
           },
         ),
+      ),
+    );
+  }
+}
+
+class BottomLoader extends StatelessWidget {
+  const BottomLoader({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Center(
+      child: SizedBox(
+        height: 100,
+        width: 24,
+        child: CircularProgressIndicator(),
       ),
     );
   }

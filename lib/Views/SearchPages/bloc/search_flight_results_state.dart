@@ -11,9 +11,19 @@ class SearchFlightResultsInitial extends SearchFlightResultsState {}
 
 class SearchFlightResultsLoaded extends SearchFlightResultsState {
   final List<SearchFlightResultsDTO> results;
+  final bool listHasChanged;
 
-  const SearchFlightResultsLoaded({required this.results});
+  const SearchFlightResultsLoaded(
+      {required this.listHasChanged, required this.results});
+
+  SearchFlightResultsLoaded copyWith(
+      {required List<SearchFlightResultsDTO> originalResults,
+      required List<SearchFlightResultsDTO> results}) {
+    return SearchFlightResultsLoaded(
+        listHasChanged: originalResults.length != results.length,
+        results: results);
+  }
 
   @override
-  List<Object> get props => [results];
+  List<Object> get props => [results, listHasChanged];
 }

@@ -1,3 +1,6 @@
+import 'dart:collection';
+import 'dart:ffi';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 
@@ -9,18 +12,46 @@ part 'search_flight_results_state.dart';
 
 class SearchFlightResultsBloc
     extends Bloc<SearchFlightResultsEvent, SearchFlightResultsState> {
+  int kLimit = 10;
   SearchFlightResultsBloc() : super(SearchFlightResultsInitial()) {
     on<LoadSearchPage>((event, emit) async {
       var futureResults = await getSearchFlightResults(
-          event.sourceID, event.destinationID, event.fromDateTime);
-      emit(SearchFlightResultsLoaded(results: futureResults));
+        event.sourceID,
+        event.destinationID,
+        event.fromDateTime,
+        limit: kLimit,
+        excludingIds: event.excludingIds,
+      );
+      emit(SearchFlightResultsLoaded(
+          listHasChanged: true, results: futureResults));
+    });
+
+    on<LoadMore>((event, emit) async {
+      var futureResults = await getSearchFlightResults(
+        event.sourceID,
+        event.destinationID,
+        event.fromDateTime,
+        limit: kLimit,
+        excludingIds: event.excludingIds,
+      );
+      if (state is SearchFlightResultsLoaded) {
+        var s = state as SearchFlightResultsLoaded;
+        emit(s.copyWith(
+            originalResults: s.results, results: s.results + futureResults));
+      }
     });
   }
 
   Future<List<SearchFlightResultsDTO>> getSearchFlightResults(
-      String sourceID, String destionationID, String fromDateTime) async {
+      String sourceID, String destionationID, String fromDateTime,
+      {int? limit, List<String>? excludingIds}) async {
     var results = await OnlineService.Instance.getSearchFlightResults(
-        sourceID, destionationID, fromDateTime);
+      sourceID,
+      destionationID,
+      fromDateTime,
+      limit: limit,
+      excludingIds: excludingIds,
+    );
 
     return results;
   }

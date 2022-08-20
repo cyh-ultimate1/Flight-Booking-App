@@ -1,6 +1,7 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:project_a/Models/API/SearchFlightResultsDTO.dart';
@@ -103,7 +104,8 @@ class OnlineService {
   }
 
   Future<List<SearchFlightResultsDTO>> getSearchFlightResults(
-      String sourceID, String destinationID, String fromDateTime) async {
+      String sourceID, String destinationID, String fromDateTime,
+      {int? limit, List<String>? excludingIds}) async {
     String? jwtToken = await secureStorage.read(key: GlobalConstants.jwt);
     var resp = await Client.post(
         Uri.parse(GlobalConstants.API_URL + "/Flight/GetFlightsByFromToPair"),
@@ -116,6 +118,8 @@ class OnlineService {
           "SourceID": sourceID,
           "DestinationID": destinationID,
           "FromDateTime": fromDateTime,
+          "Limit": limit,
+          "excludingIds": excludingIds,
         }));
     if (resp.statusCode == 200) {
       var parsed = jsonDecode(resp.body) as List;

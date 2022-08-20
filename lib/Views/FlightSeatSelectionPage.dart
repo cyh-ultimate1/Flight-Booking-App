@@ -39,7 +39,7 @@ class _FlightSeatSelectionPageState extends State<FlightSeatSelectionPage> {
                 color: pageBackgroundColor,
                 child: Column(
                   children: [
-                    Text(
+                    const Text(
                       "Select Your Seat",
                       style: TextStyle(
                           color: Colors.white,
