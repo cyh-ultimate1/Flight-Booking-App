@@ -23,7 +23,8 @@ class SearchFlightResultsBloc
         excludingIds: event.excludingIds,
       );
       emit(SearchFlightResultsLoaded(
-          listHasChanged: true, results: futureResults));
+        results: futureResults,
+      ));
     });
 
     on<LoadMore>((event, emit) async {
@@ -36,8 +37,7 @@ class SearchFlightResultsBloc
       );
       if (state is SearchFlightResultsLoaded) {
         var s = state as SearchFlightResultsLoaded;
-        emit(s.copyWith(
-            originalResults: s.results, results: s.results + futureResults));
+        emit(s.copyWith(results: s.results + futureResults));
       }
     });
   }
