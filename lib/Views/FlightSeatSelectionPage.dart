@@ -9,7 +9,9 @@ import 'package:project_a/Views/PaymentPage.dart';
 import 'bloc/flight_seat_bloc.dart';
 
 class FlightSeatSelectionPage extends StatefulWidget {
-  const FlightSeatSelectionPage({Key? key}) : super(key: key);
+  const FlightSeatSelectionPage({Key? key, required this.flightID})
+      : super(key: key);
+  final String flightID;
 
   @override
   State<FlightSeatSelectionPage> createState() =>
@@ -17,7 +19,7 @@ class FlightSeatSelectionPage extends StatefulWidget {
 }
 
 class _FlightSeatSelectionPageState extends State<FlightSeatSelectionPage> {
-  var pageBackgroundColor = Color.fromARGB(255, 0, 26, 85);
+  var pageBackgroundColor = const Color.fromARGB(255, 0, 26, 85);
   var seatSelectorColor = Colors.orange[800];
   int? finalSelectedSeatIndex;
 
@@ -174,6 +176,7 @@ class _FlightSeatSelectionPageState extends State<FlightSeatSelectionPage> {
                                       MaterialPageRoute(
                                           builder: (context) => PaymentPage(
                                                 selectedSeat: selected,
+                                                flightID: widget.flightID,
                                               )),
                                     );
                                   },

@@ -19,14 +19,14 @@ SearchFlightResultsDTO _$SearchFlightResultsDTOFromJson(
           : DateTime.parse(json['toDateTime'] as String),
     )
       ..ObjectID = json['objectID'] as String?
-      ..ObjectNumber = json['objectNumber'] as String?
+      ..IdentifierNumber = json['identifierNumber'] as String?
       ..ObjectName = json['objectName'] as String?;
 
 Map<String, dynamic> _$SearchFlightResultsDTOToJson(
         SearchFlightResultsDTO instance) =>
     <String, dynamic>{
       'objectID': instance.ObjectID,
-      'objectNumber': instance.ObjectNumber,
+      'identifierNumber': instance.IdentifierNumber,
       'objectName': instance.ObjectName,
       'sourceID': instance.sourceID,
       'destinationID': instance.destinationID,

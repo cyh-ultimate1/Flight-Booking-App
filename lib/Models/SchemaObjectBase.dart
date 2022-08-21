@@ -6,13 +6,13 @@ class SchemaObjectBase {
   @JsonKey(name: 'objectID')
   String? ObjectID;
 
-  @JsonKey(name: 'objectNumber')
-  String? ObjectNumber;
+  @JsonKey(name: 'identifierNumber')
+  String? IdentifierNumber;
 
   @JsonKey(name: 'objectName')
   String? ObjectName;
 
-  SchemaObjectBase({this.ObjectID, this.ObjectNumber, this.ObjectName});
+  SchemaObjectBase({this.ObjectID, this.IdentifierNumber, this.ObjectName});
 
   // SchemaObjectBase.fromJson(Map<String, dynamic> json)
   //     : ObjectID = json['objectID'],

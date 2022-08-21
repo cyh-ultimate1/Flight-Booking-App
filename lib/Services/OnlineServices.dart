@@ -4,6 +4,8 @@ import 'dart:developer';
 import 'dart:ffi';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:project_a/Models/API/BookingDTO.dart';
+import 'package:project_a/Models/API/PaymentDTO.dart';
 import 'package:project_a/Models/API/SearchFlightResultsDTO.dart';
 
 import '../Models/API/LocationIdNameDTO.dart';
@@ -131,5 +133,31 @@ class OnlineService {
 
     return List.filled(
         0, SearchFlightResultsDTO("", "", DateTime.now(), DateTime.now()));
+  }
+
+  Future<String> createBooking(String flightID, String cardNumber) async {
+    String? jwtToken = await secureStorage.read(key: GlobalConstants.jwt);
+    var memberUserID = await secureStorage.read(key: GlobalConstants.userID);
+
+    var bookingDTO = BookingDTO(flightID, memberUserID);
+    var resp = await Client.post(
+        Uri.parse(GlobalConstants.API_URL + "/Bookings/CreateBooking"),
+        headers: {
+          "Accept": "application/json",
+          "content-type": "application/json",
+          "Authorization": 'Bearer ' + jwtToken.toString().replaceAll('"', '')
+        },
+        body: jsonEncode({
+          "flightID": flightID,
+          "memberUserID": memberUserID,
+        }));
+    if (resp.statusCode == 200) {
+      var parsed = jsonDecode(resp.body);
+      var results = "ok";
+
+      return parsed;
+    }
+
+    return "";
   }
 }

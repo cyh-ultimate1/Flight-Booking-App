@@ -8,6 +8,8 @@ import 'package:project_a/Models/API/SearchFlightResultsDTO.dart';
 import 'package:project_a/Views/FlightDetailsFormPage.dart';
 import 'package:project_a/Views/SearchPages/bloc/search_flight_results_bloc.dart';
 
+import '../../CustomMethods.dart';
+
 class SearchFlightResultsPage extends StatefulWidget {
   const SearchFlightResultsPage(
       {Key? key,
@@ -25,22 +27,6 @@ class SearchFlightResultsPage extends StatefulWidget {
 }
 
 class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
-  void _showToast(BuildContext context) {
-    final scaffold = ScaffoldMessenger.of(context);
-    scaffold.showSnackBar(
-      SnackBar(
-        content: const Text('Loading.....'),
-        action: SnackBarAction(
-            textColor: Colors.yellow,
-            label: 'HIDE',
-            onPressed: scaffold.hideCurrentSnackBar),
-        //duration: const Duration(seconds: 3),
-        behavior: SnackBarBehavior.floating,
-        elevation: 10.0,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +59,7 @@ class _SearchFlightResultsPageState extends State<SearchFlightResultsPage> {
                       log('At the top');
                     } else {
                       log('At the bottom');
-                      _showToast(context);
+                      CustomMethods.showToast(context, textLabel: "Loading...");
                       context.read<SearchFlightResultsBloc>().add(LoadMore(
                           sourceID: widget.selectedValueSearchFrom ?? "",
                           destinationID: widget.selectedValueSearchTo ?? "",

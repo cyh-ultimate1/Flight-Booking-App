@@ -20,7 +20,7 @@ class FlightDetailsFormPage extends StatefulWidget {
 class _FlightDetailsFormPageState extends State<FlightDetailsFormPage> {
   final _formKey = GlobalKey<FormState>();
   final customBackgroundColor = const Color.fromRGBO(0, 48, 160, 1);
-  var customLinearGradient = LinearGradient(
+  var customLinearGradient = const LinearGradient(
     colors: <Color>[
       Color.fromRGBO(0, 48, 160, 1),
       Colors.lightBlue,
@@ -31,7 +31,9 @@ class _FlightDetailsFormPageState extends State<FlightDetailsFormPage> {
         if (_formKey.currentState!.validate()) {
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => FlightSeatSelectionPage()),
+            MaterialPageRoute(
+                builder: (context) =>
+                    FlightSeatSelectionPage(flightID: widget.flightObjectId)),
           );
         }
       };

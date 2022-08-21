@@ -40,12 +40,14 @@ class _LoginPageState extends State<LoginPage> {
     });
     var loginResponse =
         await OnlineService.Instance.loginUser(username, password);
-    var sessionKey = loginResponse != null ? loginResponse.token : "";
+    var sessionKey = loginResponse?.token ?? "";
+    var userID = loginResponse?.userID ?? "";
     setState(() {
       isLoading = false;
     });
     if (sessionKey.isNotEmpty) {
       secureStorage.write(key: GlobalConstants.jwt, value: sessionKey);
+      secureStorage.write(key: GlobalConstants.userID, value: userID);
       OnlineService.Client.headersTemplate["Authorization"] =
           "Bearer " + sessionKey;
       displayDialog(context, "Success", "Success");

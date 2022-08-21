@@ -9,13 +9,13 @@ part of 'SchemaObjectBase.dart';
 SchemaObjectBase _$SchemaObjectBaseFromJson(Map<String, dynamic> json) =>
     SchemaObjectBase(
       ObjectID: json['objectID'] as String?,
-      ObjectNumber: json['objectNumber'] as String?,
+      IdentifierNumber: json['identifierNumber'] as String?,
       ObjectName: json['objectName'] as String?,
     );
 
 Map<String, dynamic> _$SchemaObjectBaseToJson(SchemaObjectBase instance) =>
     <String, dynamic>{
       'objectID': instance.ObjectID,
-      'objectNumber': instance.ObjectNumber,
+      'identifierNumber': instance.IdentifierNumber,
       'objectName': instance.ObjectName,
     };

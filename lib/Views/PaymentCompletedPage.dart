@@ -4,7 +4,9 @@ import 'package:project_a/CustomWidgets/customWidgets.dart';
 import 'HomeEntryPage.dart';
 
 class PaymentCompletedPage extends StatelessWidget {
-  PaymentCompletedPage({Key? key}) : super(key: key);
+  PaymentCompletedPage({Key? key, required this.boardingPassNumber})
+      : super(key: key);
+  final String boardingPassNumber;
   var pageBackgroundColor = Color.fromARGB(255, 0, 26, 85);
 
   @override
@@ -48,13 +50,13 @@ class PaymentCompletedPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Name:",
+                        "Boarding Pass Number:",
                         style: TextStyle(
                           fontSize: 15.0,
                         ),
                       ),
                       Text(
-                        "data",
+                        boardingPassNumber,
                         style: TextStyle(
                           fontSize: 20.0,
                         ),

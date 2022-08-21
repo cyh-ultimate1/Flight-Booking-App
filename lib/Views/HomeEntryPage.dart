@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../constants.dart';
 import 'EmptyPage.dart';
 import 'HomePage.dart';
-import 'HomePage2.dart';
 
 class HomeEntryPage extends StatefulWidget {
   const HomeEntryPage({Key? key}) : super(key: key);

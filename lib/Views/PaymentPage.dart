@@ -2,17 +2,22 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:project_a/CustomWidgets/customWidgets.dart';
+import 'package:project_a/Models/API/BookingDTO.dart';
 import 'package:project_a/Views/EmptyPage.dart';
 import 'package:slider_button/slider_button.dart';
 
 import '../CustomMethods.dart';
 import '../CustomWidgets/CustomFormTextField.dart';
+import '../Services/OnlineServices.dart';
 import '../constants.dart';
 import 'PaymentCompletedPage.dart';
 
 class PaymentPage extends StatefulWidget {
-  const PaymentPage({Key? key, required this.selectedSeat}) : super(key: key);
+  const PaymentPage(
+      {Key? key, required this.selectedSeat, required this.flightID})
+      : super(key: key);
   final int selectedSeat;
+  final String flightID;
 
   @override
   State<PaymentPage> createState() => _PaymentPageState();
@@ -24,14 +29,14 @@ class _PaymentPageState extends State<PaymentPage> {
   var amount = 55.6;
 
   Function _onSlide() => () {
-        if (_formKey.currentState!.validate()) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => PaymentCompletedPage()),
-          );
-        } else {
-          setState(() {});
-        }
+        // if (_formKey.currentState!.validate()) {
+        //   Navigator.push(
+        //     context,
+        //     MaterialPageRoute(builder: (context) => PaymentCompletedPage(boardingPassNumber: ,)),
+        //   );
+        // } else {
+        //   setState(() {});
+        // }
       };
 
   @override
@@ -194,12 +199,15 @@ class _PaymentPageState extends State<PaymentPage> {
                               customLabel: "submit",
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            PaymentCompletedPage()),
-                                  );
+                                  createBooking()
+                                      .then((value) => Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    PaymentCompletedPage(
+                                                        boardingPassNumber:
+                                                            value)),
+                                          ));
                                 }
                               }),
                           // SliderButton(
@@ -242,5 +250,11 @@ class _PaymentPageState extends State<PaymentPage> {
             ),
           ],
         ));
+  }
+
+  Future<String> createBooking() async {
+    var results =
+        await OnlineService.Instance.createBooking(widget.flightID, "1234");
+    return results;
   }
 }

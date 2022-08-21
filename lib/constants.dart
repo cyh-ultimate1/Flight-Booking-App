@@ -16,6 +16,7 @@ class GlobalConstants {
   static const API_SESSION = "$API_URL/Authenticate/";
   static const storageKeyLoggedInUserID = "loggedInUserID";
   static const jwt = "jwt";
+  static const userID = "userID";
   static const SessionKey = "SessionKey";
 
   static LinearGradient customLinearGradient = LinearGradient(
