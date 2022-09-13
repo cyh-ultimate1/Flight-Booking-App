@@ -7,6 +7,7 @@ This project is to mimic an airline booking system.
 Mobile App - Flutter  
 Backend - .NET Core  
 Database - SQL Server  
+State management library - BLoC  
 
 <img src="https://user-images.githubusercontent.com/35492868/189953144-42d867c9-d66f-443d-b0ed-6ce7d88a69ef.png" width="200" height="400"/>
 <img src="https://user-images.githubusercontent.com/35492868/189953625-31c5bcb3-aae3-496e-9a82-a242eb653bf5.png" width="200" height="400"/>
