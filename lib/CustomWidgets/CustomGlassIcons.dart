@@ -24,7 +24,7 @@ class CustomGlassIcons extends StatelessWidget {
         onTap: onTap,
         child: ClipRRect(
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10.0, sigmaY: 10.0),
+            filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white.withOpacity(0.2),
