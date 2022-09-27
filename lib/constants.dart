@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class GlobalConstants {
   static const GLOBALFONTFAMILY = "Ubuntu";
-  static const SERVER_ADDRESS = "http://192.168.0.117/projectA";
+  static const SERVER_ADDRESS = "http://yourserveraddress/projectA";
   static const API_URL = "$SERVER_ADDRESS/api";
   static const API_SESSION = "$API_URL/Authenticate/";
   static const storageKeyLoggedInUserID = "loggedInUserID";
