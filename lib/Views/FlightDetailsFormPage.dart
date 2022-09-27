@@ -41,6 +41,7 @@ class _FlightDetailsFormPageState extends State<FlightDetailsFormPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
@@ -60,7 +61,7 @@ class _FlightDetailsFormPageState extends State<FlightDetailsFormPage> {
               ),
               customWidgets.emptyHorizontalSpace(customHeight: 30.0),
               Container(
-                height: 600,
+                height: MediaQuery.of(context).size.height * 0.8,
                 decoration: const BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -82,7 +83,7 @@ class _FlightDetailsFormPageState extends State<FlightDetailsFormPage> {
                         textLabel: "Your Passport Number:",
                         validator: (val) => CustomMethods.isEmptyOrNull(val),
                       ),
-                      customWidgets.emptyHorizontalSpace(customHeight: 200.0),
+                      customWidgets.emptyHorizontalSpace(customHeight: 300.0),
                       customWidgets.customLabelButton(
                         customLabel: "Submit",
                         onPressed: _submit(),

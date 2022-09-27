@@ -92,7 +92,7 @@ class _SearchFlightPageState extends State<SearchFlightPage> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
                           topRight: Radius.circular(20))),
-                  height: 610,
+                  height: MediaQuery.of(context).size.height * 0.75,
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: BlocBuilder<SearchPageBloc, SearchPageState>(
                     builder: (context, state) {
