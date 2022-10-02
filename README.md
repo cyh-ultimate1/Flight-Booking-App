@@ -4,10 +4,11 @@
 This mini project is to mimic an airline booking system.  
 
 # Tech stack
-Mobile App - Flutter  
-Backend - .NET Core  
-Database - SQL Server  
-State management library - BLoC  
+- Mobile App - Flutter  
+- Backend - .NET Core  
+- Database - SQL Server  
+- State management library - BLoC  
+- Push notification - Firebase
 
 
 https://user-images.githubusercontent.com/35492868/192524107-eb502939-fd1d-4d36-b664-955f2a301ea2.mp4
