@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:project_a/Models/KeyValueModel.dart';
@@ -38,5 +41,12 @@ class CustomMethods {
         elevation: 10.0,
       ),
     );
+  }
+
+  static Future<void> testPushNotification() async {
+    // Firebase.initializeApp;
+    final String? fcmToken = await FirebaseMessaging.instance.getToken();
+
+    log("the fcm token is " + fcmToken!);
   }
 }

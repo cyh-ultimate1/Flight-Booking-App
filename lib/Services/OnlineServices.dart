@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:ffi';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:project_a/Models/API/BookingDTO.dart';
@@ -43,10 +44,14 @@ class OnlineService {
   Future<LoginResponse?> loginUser(String username, String password) async {
     LoginResponse? loginResponse;
     try {
-      var resp = await Client.post(
-              Uri.parse(GlobalConstants.API_SESSION + 'login'),
-              body: jsonEncode({"username": username, "password": password}))
-          .timeout(const Duration(minutes: 10));
+      var fcmToken = await FirebaseMessaging.instance.getToken();
+      var resp =
+          await Client.post(Uri.parse(GlobalConstants.API_SESSION + 'login'),
+              body: jsonEncode({
+                "username": username,
+                "password": password,
+                "deviceId": fcmToken,
+              })).timeout(const Duration(minutes: 10));
       if (resp.statusCode == 200) {
         Map<String, dynamic> userMap = jsonDecode(resp.body);
         loginResponse = LoginResponse.fromJson(userMap);

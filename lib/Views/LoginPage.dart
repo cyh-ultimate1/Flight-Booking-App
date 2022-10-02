@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:project_a/CustomMethods.dart';
 
 import '../Services/OnlineServices.dart';
 import '../constants.dart';
@@ -131,6 +132,17 @@ class _LoginPageState extends State<LoginPage> {
                                 textStyle: const TextStyle(
                                     fontSize: 20, fontWeight: FontWeight.bold)),
                           ),
+                    customWidgets.emptyHorizontalSpace(),
+                    // ElevatedButton(
+                    //   onPressed: () => CustomMethods.testPushNotification(),
+                    //   child: Text("test notification".toUpperCase()),
+                    //   style: ElevatedButton.styleFrom(
+                    //       primary: Colors.orange[800],
+                    //       padding: const EdgeInsets.symmetric(
+                    //           horizontal: 50, vertical: 20),
+                    //       textStyle: const TextStyle(
+                    //           fontSize: 20, fontWeight: FontWeight.bold)),
+                    // ),
                   ]),
             )),
       ),
